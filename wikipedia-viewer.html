@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wikipedia Viewer</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="scripts/jquery.js"></script>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		.glyphicon {
+			font-size: 30px;
+			cursor: pointer;
+		}
+
+		.search-box {
+			display: none;
+		}
+
+		.main-container {
+			border: 1px solid black;
+			width: 100%;
+			padding: 10px;
+			margin: 20px 0;
+			background-color: #aaa;
+			color: white ;
+		}
+
+		.main-container a {
+			text-decoration: none;
+			color: black;
+		}
+	</style>
+</head>
+<body>
+	<div class="container-fluid">
+	  <!-- <header>
+		<h1>Wikipedia Viewer</h1>
+		<p>Bringing every article to you</p>
+	  </header> -->
+
+	  <section class="col-xs-2">
+	  </section>
+	  <section class="col-xs-10 main">
+	  	  <header>
+		    <h1>Wikipedia Viewer</h1>
+		  <p>Bringing every article to you</p>
+	  </header>
+	  	  <p><span class="glyphicon glyphicon-search"></span></p>
+
+	  	  <div class="search-box">
+	  	  	<form name="wikipediaForm">
+	  	  	<div class="form-group">
+	  	      <input type="search" name="article" class="form-control" id="inputBox" placeholder="search term, or keyword">
+	  	    </div>
+
+	  	    <div class="form-group">
+	  	     <input type="button" class="btn btn-primary" value="Search">
+	  	   </div>
+	  	</form>
+
+
+	  	   <div class="search-results">
+	  	   	<!-- <ul class="lists">
+
+	  	   	</ul> -->
+	  	   </div>
+	  	  </div>
+
+	  </section>
+
+	  <section class="col-xs-2">
+	  </section>
+	</div>
+
+	<script>
+
+		$(document).ready(function() {
+			$(".glyphicon").on("click", function() {
+				$(".search-box").show();
+				$(this).hide();
+			});
+
+			$(".btn").on("click", function() {
+				var articleTerm = $("#inputBox").val();
+				getArticle(articleTerm);
+			})
+
+
+			function getArticle(articleTerm) {
+				$.ajax({
+					url: 'https://en.wikipedia.org/w/api.php',
+
+					headers: {
+						'Api-User-Agent': 'mickey4sure2k7@gmail.com'
+					},
+
+					data: {
+						action: 'query',
+						prop: 'revisions',
+						rvprop: 'content',
+						format: 'json',
+						origin: '*',
+						list: 'search',
+						srsearch: articleTerm,
+					},
+
+					success: function(data) {
+						processData(data.query.search);
+					},
+
+					fail: function(err, xhr) {
+						console.log(err);
+					},
+				});
+			}
+
+			function processData(data) {
+
+				var searchResultsBox = document.querySelector('.search-results');
+				var $searchResultsBox = $('.search-results');
+				searchResultsBox.innerHTML = '';
+				$searchResultsBox.html('');
+
+				data.forEach(function(obj) {
+
+					var mainContainer = document.createElement('div');
+					mainContainer.className = "main-container";
+
+					var title = obj['title'];
+					var heading = document.createElement('h2');
+					heading.textContent = title;
+
+					var para = document.createElement('p');
+					para.innerHTML = obj['snippet'];
+
+					var a = document.createElement('a');
+					a.setAttribute('href', 'https://en.wikipedia.org/?curid=' + obj['pageid']);
+					var list = document.createElement('div');
+					list.appendChild(heading);
+					list.appendChild(para);
+					a.appendChild(list);
+
+					mainContainer.appendChild(a);
+					searchResultsBox.appendChild(mainContainer);
+				});
+			}
+		});
+	</script>
+</body>
+</html>
