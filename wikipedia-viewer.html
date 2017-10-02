@@ -117,21 +117,25 @@
 
 			function processData(data) {
 
-				var searchResultsBox = document.querySelector('.search-results');
+				// var searchResultsBox = document.querySelector('.search-results');
 				var $searchResultsBox = $('.search-results');
-				searchResultsBox.innerHTML = '';
+				// searchResultsBox.innerHTML = '';
 				$searchResultsBox.html('');
 
 				data.forEach(function(obj) {
 
-					var mainContainer = document.createElement('div');
-					mainContainer.className = "main-container";
+					// var mainContainer = document.createElement('div');
+					var $mainContainer = $("<div></div>");
+					// mainContainer.className = "main-container";
+					$mainContainer.addClass('main-container');
 
 					var title = obj['title'];
-					var heading = document.createElement('h2');
-					heading.textContent = title;
+					// var heading = document.createElement('h2');
+					var $heading = $("<h2></h2>").text(title);
+					// heading.textContent = title;
 
-					var para = document.createElement('p');
+					// var para = document.createElement('p');
+					var $para = $("<p></p>").html(obj['snippet']);
 					para.innerHTML = obj['snippet'];
 
 					var a = document.createElement('a');
@@ -142,7 +146,7 @@
 					a.appendChild(list);
 
 					mainContainer.appendChild(a);
-					searchResultsBox.appendChild(mainContainer);
+					$searchResultsBox.appendChild(mainContainer);
 				});
 			}
 		});
