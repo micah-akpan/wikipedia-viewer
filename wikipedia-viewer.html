@@ -30,6 +30,10 @@
 			text-decoration: none;
 			color: black;
 		}
+
+		ul {
+			list-style-type: none;
+		}
 	</style>
 </head>
 <body>
@@ -148,7 +152,8 @@
 					$list.append($para);
 					// list.appendChild(heading);
 					// list.appendChild(para);
-					$a.append($list);
+					$("<ul></ul>").append($list).appendTo($a);
+					// $a.append($);
 
 					$mainContainer.append($a);
 					$searchResultsBox.append($mainContainer);
