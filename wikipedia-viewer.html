@@ -136,17 +136,22 @@
 
 					// var para = document.createElement('p');
 					var $para = $("<p></p>").html(obj['snippet']);
-					para.innerHTML = obj['snippet'];
+					// para.innerHTML = obj['snippet'];
 
-					var a = document.createElement('a');
-					a.setAttribute('href', 'https://en.wikipedia.org/?curid=' + obj['pageid']);
-					var list = document.createElement('div');
-					list.appendChild(heading);
-					list.appendChild(para);
-					a.appendChild(list);
+					// var a = document.createElement('a');
+					var $a = $("<a></a>").attr('href', 'https://en.wikipedia.org/?curid=' + obj['pageid']);
 
-					mainContainer.appendChild(a);
-					$searchResultsBox.appendChild(mainContainer);
+					// a.setAttribute('href', 'https://en.wikipedia.org/?curid=' + obj['pageid']);
+					// var list = document.createElement('div');
+					var $list = $("<li></li>");
+					$list.append($heading);
+					$list.append($para);
+					// list.appendChild(heading);
+					// list.appendChild(para);
+					$a.append($list);
+
+					$mainContainer.append($a);
+					$searchResultsBox.append($mainContainer);
 				});
 			}
 		});
